@@ -6,7 +6,7 @@ class RPGCombat < Minitest::Test
 
     def setup
         @character = Character.new(:melee, 2)
-        @melee_enemy = Character.new(:melee, 2, 800)
+        @melee_enemy = Character.new(:melee, 3, 800)
         @ranged_enemy = Character.new(:ranged, 10, 800)
     end
 
@@ -25,33 +25,34 @@ class RPGCombat < Minitest::Test
     
     def test_character_can_deal_damage
         enemy_health_before_being_attacked = @melee_enemy.health
-        @character.attack(enemy, 100)
+        @character.attack(@melee_enemy, 100)
         assert_equal true, @melee_enemy.health < enemy_health_before_being_attacked
     end
     
     def test_character_can_heal
-        character_health_before_being_healed = @character.health
-        @character.heal(@character, 200)
-        assert_equal true, @character.health > character_health_before_being_healed
+        character = Character.new(:melee, 2, 500)
+        character_health_before_being_healed = character.health
+        character.heal(character, 200)
+        assert_equal true, character.health > character_health_before_being_healed
     end
 
     def test_character_cannot_heal_because_is_dead
-        @melee_enemy.attack(character, @character.health)
-        @character.heal(character, 200)
+        @melee_enemy.attack(@character, @character.health)
+        @character.heal(@character, 200)
         assert_equal true, @character.health == 0
     end
     
     def test_character_cannot_healed_over_his_maximum_health_points
         maximum_health_points = @character.health
-        @melee_enemy.attack(character, 100)
-        @character.heal(character, 200)
+        @melee_enemy.attack(@character, 100)
+        @character.heal(@character, 200)
         assert_equal true, @character.health == maximum_health_points
     end
     
     def test_character_can_damage_his_enemys
 	    enemy_health_points_before_attacked = @melee_enemy.health
-	    @character.attack(enemy, 100)
-        assert_equal true, @enemy.health < enemy_health_points_before_attacked
+	    @character.attack(@melee_enemy, 100)
+        assert_equal true, @melee_enemy.health < enemy_health_points_before_attacked
     end
 
     def test_character_can_damage_himself
@@ -62,14 +63,14 @@ class RPGCombat < Minitest::Test
 
     def test_character_cant_heal_his_enemys
 	    enemy_health_before_healed = @melee_enemy.health
-        @character.heal(enemy, 200)
-	    assert_equal true, @enemy.health == enemy_health_before_healed
+        @character.heal(@melee_enemy, 200)
+	    assert_equal true, @melee_enemy.health == enemy_health_before_healed
     end
        
     def test_damage_reduced_50_if_enemy_had_5_levels_above_character
         @melee_enemy.level = 6
         enemy_health_points_before_attacked = @melee_enemy.health
-        @character.attack(enemy, 300)
+        @character.attack(@melee_enemy, 300)
         damage = 300 * 0.5
         assert_equal true, @melee_enemy.health == enemy_health_points_before_attacked - damage
     end
@@ -77,7 +78,7 @@ class RPGCombat < Minitest::Test
     def test_damage_boosted_50_if_enemy_had_5_levels_below_character
         @character.level = 6
         enemy_health_points_before_attacked = @melee_enemy.health
-        @character.attack(enemy, 300)
+        @character.attack(@melee_enemy, 300)
         damage = 300 + (300 * 0.5)
         assert_equal true, @melee_enemy.health == enemy_health_points_before_attacked - damage
     end
@@ -93,20 +94,20 @@ class RPGCombat < Minitest::Test
     def test_character_cant_deal_damage_if_enemy_is_not_in_range
         enemy_health_points_before_attacked = @ranged_enemy.health
         damage = 200
-        @character.attack(enemy, damage)
+        @character.attack(@ranged_enemy, damage)
         assert_equal true, @ranged_enemy.health == enemy_health_points_before_attacked
     end
     
     def test_character_can_deal_damage_if_enemy_is_in_range
-        enemy_health_points_before_attacked = @ranged_enemy.health
+        enemy_health_points_before_attacked = @melee_enemy.health
         damage = 200
-        @character.attack(enemy, damage)
-        assert_equal true, @ranged_enemy.health == enemy_health_points_before_attacked - damage
+        @character.attack(@melee_enemy, damage)
+        assert_equal true, @melee_enemy.health == enemy_health_points_before_attacked - damage
     end
     
     def test_character_can_join_in_a_faction
         @character.join_factions(["Faction_one"])
-        assert_equal true, character.factions_joined.size == 1
+        assert_equal true, @character.factions_joined.size == 1
     end
     
     def test_character_can_join_in_various_factions
@@ -117,7 +118,7 @@ class RPGCombat < Minitest::Test
     def test_character_can_leave_a_faction
         @character.join_factions(["Faction_one", "Faction_two"])
         @character.leave_factions(["Faction_one"])
-        assert_equal ["Faction_two"], character.factions_joined
+        assert_equal ["Faction_two"], @character.factions_joined
     end
     
     def test_character_can_leave_various_factions
