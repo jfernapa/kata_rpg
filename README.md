@@ -1,2 +1,2 @@
 # kata_rpg
-aaaaaaa
+Solución a la kata de http://www.slideshare.net/DanielOjedaLoisel/rpg-combat-kata
