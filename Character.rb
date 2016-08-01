@@ -93,7 +93,14 @@ class Character
         @alive
     end
 
-    public :attack, :heal, :receive_damage, :receive_health_points, :join_factions, :leave_factions, :alive?, :is_an_ally? 
+    public :attack,
+           :heal,
+           :receive_damage,
+           :receive_health_points,
+           :join_factions,
+           :leave_factions,
+           :alive?,
+           :is_an_ally? 
 
     private :in_range?, 
             :am_i_the_target?,
