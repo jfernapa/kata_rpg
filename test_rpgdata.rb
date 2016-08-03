@@ -1,6 +1,6 @@
 require "minitest/autorun"
-require_relative "Character.rb"
-require_relative "Thing.rb"
+require_relative "character.rb"
+require_relative "thing.rb"
 
 class RPGCombat < Minitest::Test
 
