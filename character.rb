@@ -64,13 +64,8 @@ class Character
     end
 
     def is_an_ally?(other_character)
-        allied_faction = @factions_joined.find { |faction| other_character.factions_joined.include?(faction) }
-        
-        if allied_faction != nil
-            ally = true
-        else
-            ally = false
-        end
+        allied_faction = @factions_joined.find { |faction| other_character.factions_joined.include?(faction) }    
+        allied_faction != nil ? true : false
     end
 
     def can_receive_damage?(target)
@@ -88,7 +83,7 @@ class Character
     end
 
     def in_range?(target)
-        return (target.position - @position).magnitude <= @range
+        (target.position - @position).magnitude <= @range
     end
 
     def am_i_the_target?(target)
@@ -96,7 +91,7 @@ class Character
     end
 
     def in_range?(target)
-        return (target.position - @position).magnitude <= @range
+        (target.position - @position).magnitude <= @range
     end
 
     def is_a_character?(target)
