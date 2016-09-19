@@ -1,1 +1,1 @@
-Solución a la kata de http://www.slideshare.net/DanielOjedaLoisel/rpg-combat-kata
+Solution for the kata http://www.slideshare.net/DanielOjedaLoisel/rpg-combat-kata
